@@ -1,3 +1,28 @@
+/*
+Package qsplit (short for "quoted split") performs a smart,
+Unicode-aware split-on-whitespace. It returns a slice of the
+non-whitespace "chunks" contained in a byte slice. It treats text
+within balanced quotes as a single chunk.
+
+Whitespace, according to qsplit, is `[\pZ\t]` (Unicode separators plus
+horizontal tab).
+
+Qsplit is aware of several quote character pairs:
+
+    ASCII single: ''
+    ASCII double: ""
+    Guillemets:   ‹›, «»
+    Japanese:     「」,『』
+
+These are the rules qsplit uses to determine what is a chunk of quoted
+text:
+
+    * Quotes begin only at a word boundary
+    * Quotes extend to the first closing quotation mark (regardless of
+      word boundaries)
+    * Quotes do not nest
+
+*/
 package qsplit
 
 import (
@@ -13,16 +38,13 @@ var (
 func init() {
 	spaceRE = regexp.MustCompile(`[\pZ\t]`)
 	quotes  = map[rune]rune{
-		'\'':'\'',
-		'"':'"',
-		'‹':'›',
-		'«':'»',
+		'\'':'\'', '"':'"',
+		'‹':'›', '«':'»',
+		'「':'」', '『':'』',
 	}
 }
 
-// Split performs a smart split-on-whitespace. It takes a byte slice
-// and returns a slice of byte slices. It is aware of unicode
-// whitespace and handles quoted strings.
+// Split performs a smart split-on-whitespace.
 func Split(b []byte) [][]byte {
 	var sb [][]byte // slice of slice of bytes
 	var s  string   // temprary string
