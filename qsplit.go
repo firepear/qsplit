@@ -20,8 +20,11 @@ func init() {
 	}
 }
 
+// Split performs a smart split-on-whitespace. It takes a byte slice
+// and returns a slice of byte slices. It is aware of unicode
+// whitespace and handles quoted strings.
 func Split(b []byte) [][]byte {
-	var ss [][]byte // slice of slice of bytes
+	var sb [][]byte // slice of slice of bytes
 	var s  string   // temprary string
 	var i, j int = 0, 0
 	// we need to operate at the runes level
@@ -33,7 +36,7 @@ func Split(b []byte) [][]byte {
 				continue // yes. but not in a word; toss it
 			}
 			// yes & we were in a word, which has now ended
-			ss = append(ss, []byte(s)) // append s to ss
+			sb = append(sb, []byte(s)) // append s to ss
 			s = ""                     // reset s
 			j = 0                      // reset j
 			continue
@@ -47,7 +50,7 @@ func Split(b []byte) [][]byte {
 				s = s + string(r[i])
 				i++
 			}
-			ss = append(ss, []byte(s))
+			sb = append(sb, []byte(s))
 			s = ""
 			continue
 		}
@@ -58,7 +61,18 @@ func Split(b []byte) [][]byte {
 	}
 	// append to ss if the end of r was inside a word
 	if j != 0 {
-		ss = append(ss, []byte(s))
+		sb = append(sb, []byte(s))
+	}
+	return sb
+}
+
+// SplitString is a convenience function which works like Split, but
+// returns a slice of strings.
+func SplitString(b []byte) []string {
+	var ss []string
+	bslices := Split(b)
+	for _, bslice := range bslices {
+		ss = append(ss, string(bslice))
 	}
 	return ss
 }

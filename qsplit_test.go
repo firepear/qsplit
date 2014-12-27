@@ -10,6 +10,11 @@ func TestQsplit(t *testing.T) {
 	if qs != nil {
 		t.Errorf("Empty string should be nil but got '%v'", string(qs[0]))
 	}
+	// all whitespace should also be nil
+	qs = Split([]byte("  \t       \t\t  "))
+	if qs != nil {
+		t.Errorf("Empty string should be nil but got '%v'", string(qs[0]))
+	}
 	// a single word should come back as itself
 	qs = Split([]byte("foo"))
 	if len(qs) != 1 {
@@ -109,5 +114,18 @@ func TestQsplit(t *testing.T) {
 	}
 	if string(qs[5]) != `y` {
 		t.Errorf("should be 'y' but got '%v'", string(qs[5]))
+	}
+}
+
+func TestQsplitstring(t *testing.T) {
+	qs := SplitString([]byte("foo bar"))
+	if len(qs) != 2 {
+		t.Errorf("qs should be len 2 but is %v", len(qs))
+	}
+	if qs[0] != "foo" {
+		t.Errorf("'foo' should come back as 'foo' but got '%v'", string(qs[0]))
+	}
+	if qs[1] != "bar" {
+		t.Errorf("'bar' should come back as 'bar' but got '%v'", string(qs[0]))
 	}
 }
