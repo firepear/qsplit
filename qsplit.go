@@ -11,7 +11,7 @@ var (
 )
 
 func init() {
-	spaceRE = regexp.MustCompile(`\pZ`)
+	spaceRE = regexp.MustCompile(`[\pZ\t]`)
 	quotes  = map[rune]rune{
 		'\'':'\'',
 		'"':'"',
@@ -48,7 +48,7 @@ func Split(b []byte) [][]byte {
 				i++
 			}
 			ss = append(ss, []byte(s))
-			s = s[:0]
+			s = ""
 			continue
 		}
 		// we're in a plain old word then. increment j and append the
