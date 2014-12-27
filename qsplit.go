@@ -14,8 +14,7 @@ Qsplit is aware of several quote character pairs:
     Guillemets:   ‹›, «»
     Japanese:     「」,『』
 
-These are the rules qsplit uses to determine what is a chunk of quoted
-text:
+These are the rules used to delineate chunks of quoted text:
 
     * Quotes begin only at a word boundary
     * Quotes extend to the first closing quotation mark (regardless of
@@ -24,6 +23,10 @@ text:
 
 */
 package qsplit
+
+// Copyright (c) 2014 Shawn Boyette <shawn@firepear.net>. All rights
+// reserved.  Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 
 import (
 	"bytes"
