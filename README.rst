@@ -13,7 +13,7 @@ keeping quoted chunks together, in the manner of the shell.
     `   foo \tbar baz` -> {`foo`, `bar`, `baz`}
     `'foo bar' baz`    -> {`foo bar`, `baz`}
     `a b ‹c d "e f"›`  -> {`a`, `b`, `c d "e f"`}
-    `a b'cd e'f`       -> {`a`, `b'cd`, `e'f`} // open quote must be on word boundary
+    `a b'cd e'f`       -> {`a`, `b'cd`, `e'f`}
 
 See the package doc for more information.
     
