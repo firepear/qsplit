@@ -21,6 +21,8 @@ See the package doc for more information.
 
 * `Coverage report <http://firepear.net/goutils/qsplit/coverage.html>`_
 
+* `Issue tracker <https://firepear.atlassian.net/browse/QSPLIT>`_
+
 * Repository: :code:`git://firepear.net/goutils/qsplit.git`
 
 
