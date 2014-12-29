@@ -16,9 +16,12 @@ keeping quoted chunks together, in the manner of the shell.
     `a b'cd e'f`       -> {`a`, `b'cd`, `e'f`}
 
 See the package doc for more information.
-    
-* Repository: :code:`git://firepear.net/goutils/qsplit.git`
+
+* `Package documentation <http://firepear.net:6060/pkg/firepear.net/goutils/qsplit/>`_
 
 * `Coverage report <http://firepear.net/goutils/qsplit/coverage.html>`_
+
+* Repository: :code:`git://firepear.net/goutils/qsplit.git`
+
 
 Send questions, suggestions, or problem reports to shawn@firepear.net
