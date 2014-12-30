@@ -17,13 +17,15 @@ keeping quoted chunks together, in the manner of the shell.
 
 See the package doc for more information.
 
+* Current version: 1.0.4 (2014-12-29)
+
 * `Package documentation <http://firepear.net:6060/pkg/firepear.net/goutils/qsplit/>`_
 
 * `Coverage report <http://firepear.net/goutils/qsplit/coverage.html>`_
 
 * `Issue tracker <https://firepear.atlassian.net/browse/QSPLIT>`_
 
-* Repository: :code:`git://firepear.net/goutils/qsplit.git`
+* Source repo: :code:`git://firepear.net/goutils/qsplit.git`
 
 
 Send questions, suggestions, or problem reports to shawn@firepear.net
