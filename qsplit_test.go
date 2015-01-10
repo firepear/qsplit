@@ -6,19 +6,19 @@ import (
 
 func TestQsplit(t *testing.T) {
 	// the empty string should come back as a nil
-	qs := Split([]byte(""))
+	qs := ToBytes([]byte(""))
 	if qs != nil {
 		t.Errorf("Empty string should be nil but got '%v'", string(qs[0]))
 	}
 	
 	// all whitespace should also be nil
-	qs = Split([]byte("  \t       \t\t  "))
+	qs = ToBytes([]byte("  \t       \t\t  "))
 	if qs != nil {
 		t.Errorf("Empty string should be nil but got '%v'", string(qs[0]))
 	}
 	
 	// a single word should come back as itself
-	qs = Split([]byte("foo"))
+	qs = ToBytes([]byte("foo"))
 	if len(qs) != 1 {
 		t.Errorf("qs should be len 1 but is %v", len(qs))
 	}
@@ -27,7 +27,7 @@ func TestQsplit(t *testing.T) {
 	}
 	
 	// two words
-	qs = Split([]byte("foo bar"))
+	qs = ToBytes([]byte("foo bar"))
 	if len(qs) != 2 {
 		t.Errorf("qs should be len 2 but is %v", len(qs))
 	}
@@ -39,7 +39,7 @@ func TestQsplit(t *testing.T) {
 	}
 	
 	// two words with leading space and extra interspacing
-	qs = Split([]byte("     foo \t  bar"))
+	qs = ToBytes([]byte("     foo \t  bar"))
 	if len(qs) != 2 {
 		t.Errorf("qs should be len 2 but is %v", len(qs))
 	}
@@ -51,7 +51,7 @@ func TestQsplit(t *testing.T) {
 	}
 	
 	// begins with quote
-	qs = Split([]byte(`"foo bar" baz`))
+	qs = ToBytes([]byte(`"foo bar" baz`))
 	if len(qs) != 2 {
 		t.Errorf("qs should be len 2 but is %v", len(qs))
 	}
@@ -63,7 +63,7 @@ func TestQsplit(t *testing.T) {
 	}
 	
 	// ends with quote
-	qs = Split([]byte(`foo 'bar baz'`))
+	qs = ToBytes([]byte(`foo 'bar baz'`))
 	if len(qs) != 2 {
 		t.Errorf("qs should be len 2 but is %v", len(qs))
 	}
@@ -75,7 +75,7 @@ func TestQsplit(t *testing.T) {
 	}
 	
 	// unterminated quote
-	qs = Split([]byte(`foo 'bar baz"`))
+	qs = ToBytes([]byte(`foo 'bar baz"`))
 	if len(qs) != 2 {
 		t.Errorf("qs should be len 2 but is %v", len(qs))
 	}
@@ -87,7 +87,7 @@ func TestQsplit(t *testing.T) {
 	}
 	
 	// looks like a quote but isn't (not on word boundary)
-	qs = Split([]byte(`foo bar'baz' quux`))
+	qs = ToBytes([]byte(`foo bar'baz' quux`))
 	if len(qs) != 3 {
 		t.Errorf("qs should be len 2 but is %v", len(qs))
 	}
@@ -102,7 +102,7 @@ func TestQsplit(t *testing.T) {
 	}
 	
 	// non-ASCII quotes
-	qs = Split([]byte(`‹foo "bar"› xyz «「1 2 3』» abc 「this is a test」`))
+	qs = ToBytes([]byte(`‹foo "bar"› xyz «「1 2 3』» abc 「this is a test」`))
 	if len(qs) != 5 {
 		t.Errorf("qs should be len 5 but is %v", len(qs))
 	}
@@ -113,7 +113,7 @@ func TestQsplit(t *testing.T) {
 	}
 	
 	// quotes end on closing quote, not on closing quote + word boundary
-	qs = Split([]byte(`foo "bar"baz`))
+	qs = ToBytes([]byte(`foo "bar"baz`))
 	if len(qs) != 3 {
 		t.Errorf("qs should be len 3 but is %v", len(qs))
 	}
@@ -124,7 +124,7 @@ func TestQsplit(t *testing.T) {
 	}
 	
 	// some of everything, including trailing space
-	qs = Split([]byte(`foo 'bar baz' ‹lorem     ipsum›     «a b c d e» x y  `))
+	qs = ToBytes([]byte(`foo 'bar baz' ‹lorem     ipsum›     «a b c d e» x y  `))
 	if len(qs) != 6 {
 		t.Errorf("qs should be len 2 but is %v", len(qs))
 	}
@@ -136,7 +136,7 @@ func TestQsplit(t *testing.T) {
 }
 
 func TestQsplitString(t *testing.T) {
-	qs := SplitString([]byte("foo bar"))
+	qs := ToStrings([]byte("foo bar"))
 	if len(qs) != 2 {
 		t.Errorf("qs should be len 2 but is %v", len(qs))
 	}
@@ -149,7 +149,7 @@ func TestQsplitString(t *testing.T) {
 }
 
 func TestQsplitStringByte(t *testing.T) {
-	cmd, chunks := SplitStringByte([]byte("foo bar baz quux"))
+	cmd, chunks := ToStringBytes([]byte("foo bar baz quux"))
 	if len(chunks) != 3 {
 		t.Errorf("chunks should be len 3 but is %v", len(chunks))
 	}

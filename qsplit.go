@@ -47,8 +47,8 @@ func init() {
 	}
 }
 
-// Split performs a smart split-on-whitespace.
-func Split(b []byte) [][]byte {
+// ToBytes performs a quoted split to a slice of byteslices.
+func ToBytes(b []byte) [][]byte {
 	var sb [][]byte // slice of slice of bytes
 	var s  string   // temprary string
 	var i, j int = 0, 0
@@ -91,21 +91,20 @@ func Split(b []byte) [][]byte {
 	return sb
 }
 
-// SplitString is a convenience function which works like Split, but
-// returns a slice of strings.
-func SplitString(b []byte) []string {
+// ToStrings performs a quoted split to a slice of strings.
+func ToStrings(b []byte) []string {
 	var ss []string
-	bslices := Split(b)
+	bslices := ToBytes(b)
 	for _, bslice := range bslices {
 		ss = append(ss, string(bslice))
 	}
 	return ss
 }
 
-// SplitStringByte is a convenience function which works like Split,
-// but returns the first chunk of text as a string and the rest as a
-// slice of byteslices.
-func SplitStringByte(b []byte) (string, [][]byte) {
-	bslices := Split(b)
+// ToStringBytes performs a quoted split, with the first resulting
+// chunk returned as a string and all remaining chunks returned as a
+// slice of byteslices..
+func ToStringBytes(b []byte) (string, [][]byte) {
+	bslices := ToBytes(b)
 	return string(bslices[0]), bslices[1:]
 }
