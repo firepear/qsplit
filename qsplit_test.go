@@ -135,7 +135,7 @@ func TestQsplit(t *testing.T) {
 	}
 }
 
-func TestQsplitstring(t *testing.T) {
+func TestQsplitString(t *testing.T) {
 	qs := SplitString([]byte("foo bar"))
 	if len(qs) != 2 {
 		t.Errorf("qs should be len 2 but is %v", len(qs))
@@ -145,5 +145,20 @@ func TestQsplitstring(t *testing.T) {
 	}
 	if qs[1] != "bar" {
 		t.Errorf("'bar' should come back as 'bar' but got '%v'", string(qs[0]))
+	}
+}
+
+func TestQsplitStringByte(t *testing.T) {
+	cmd, chunks := SplitStringByte([]byte("foo bar baz quux"))
+	if len(chunks) != 3 {
+		t.Errorf("chunks should be len 3 but is %v", len(chunks))
+	}
+	if cmd != "foo" {
+		t.Errorf("first chunk should have come back as 'foo' but got '%v'", cmd)
+	}
+	for i, tchunk := range []string{"bar", "baz", "quux"} {
+		if string(chunks[i]) != tchunk {
+			t.Errorf("chunk %v should come back as '%v' but got '%v'", i, tchunk, string(chunks[i]))
+		}
 	}
 }

@@ -101,3 +101,11 @@ func SplitString(b []byte) []string {
 	}
 	return ss
 }
+
+// SplitStringByte is a convenience function which works like Split,
+// but returns the first chunk of text as a string and the rest as a
+// slice of byteslices.
+func SplitStringByte(b []byte) (string, [][]byte) {
+	bslices := Split(b)
+	return string(bslices[0]), bslices[1:]
+}
