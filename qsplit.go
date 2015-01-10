@@ -101,9 +101,8 @@ func ToStrings(b []byte) []string {
 	return ss
 }
 
-// ToStringBytes performs a quoted split, with the first resulting
-// chunk returned as a string and all remaining chunks returned as a
-// slice of byteslices..
+// ToStringBytes performs a quoted split, returning the first chunk as
+// a string and the rest as a slice of byteslices.
 func ToStringBytes(b []byte) (string, [][]byte) {
 	bslices := ToBytes(b)
 	return string(bslices[0]), bslices[1:]
