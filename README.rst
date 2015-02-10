@@ -23,7 +23,7 @@ See the package doc for more information.
 
 * `Release notes <http://firepear.net/goutils/qsplit/RELEASE_NOTES.txt>`_
 
-* `Package documentation <http://firepear.net:6060/pkg/firepear.net/goutils/qsplit/>`_
+* `Package documentation <http://godoc.org/firepear.net/goutils/qsplit>`_
 
 * `Coverage report <http://firepear.net/goutils/qsplit/coverage.html>`_
 
