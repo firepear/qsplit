@@ -19,6 +19,10 @@ See the package doc for more information.
 
 * Current version: 2.0.1 (2015-01-10)
 
+* Install: :code:`go get firepear.net/goutils/qsplit`
+
+* `Release notes <http://firepear.net/goutils/qsplit/RELEASE_NOTES.txt>`_
+
 * `Package documentation <http://firepear.net:6060/pkg/firepear.net/goutils/qsplit/>`_
 
 * `Coverage report <http://firepear.net/goutils/qsplit/coverage.html>`_
