@@ -1,31 +1,56 @@
+2.1.0 - 2015-02-15
+---------------------------------------------------------------------
+
+    * New split function, Locations(), which returns a slice of
+      integer tuples. Each tuple expresses the beginning and ending
+      locations, within the input byteslice, of a chunk.
+
+    * New split function, Once(), which returns the first chunk of the
+      input byteslice as a string and the remainder of the byteslice
+      unmodified.
+
+
 2.0.1 - 2015-01-10
+---------------------------------------------------------------------
 
     * Doc fixes only
 
+
 2.0.0 - 2015-01-10
+---------------------------------------------------------------------
 
     * No code changes; all public functions renamed
       Split -> ToBytes
       SplitString -> ToStrings
       SplitStringByte -> ToStringBytes
 
+
 1.1.0 - 2015-01-10
+---------------------------------------------------------------------
 
     * Added function SplitStringByte()
 
+
 1.0.4 - 2014-12-29
+---------------------------------------------------------------------
 
     * Doc fixes only
     
+
 1.0.3 - 2014-12-27
+---------------------------------------------------------------------
 
     * Added README
 
+
 1.0.2 - 2014-12-27
+---------------------------------------------------------------------
 
     * Licence pointer; tiny doc tweak
 
+
 1.0.1 - 2014-12-27
+---------------------------------------------------------------------
 
     * Remembered the package doc
 
@@ -33,6 +58,8 @@
 
     * More tests
 
+
 1.0.0 - 2014-12-27
+---------------------------------------------------------------------
 
     * Initial release

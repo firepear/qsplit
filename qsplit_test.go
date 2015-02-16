@@ -4,6 +4,121 @@ import (
 	"testing"
 )
 
+func TestLocations(t *testing.T) {
+	// the empty string should come back as a nil
+	cp := Locations([]byte(""))
+	if cp != nil {
+		t.Errorf("Empty string should be nil but got '%v'", cp)
+	}
+	// all whitespace should also be nil
+	cp = Locations([]byte("  \t       \t\t  "))
+	if cp != nil {
+		t.Errorf("Empty string should be nil but got '%v'", cp)
+	}
+	// a single word should come back as a single-element
+	// slice. positions should be {0,3} for "foo"
+	cp = Locations([]byte("foo"))
+	if len(cp) != 1 {
+		t.Errorf("cp should be len 1 but is %v", len(cp))
+	}
+	if cp[0][0] != 0 {
+		t.Errorf("cp[0][0] of 'foo' should be 0 but is %v", cp[0][0])
+	}	
+	if cp[0][1] != 3 {
+		t.Errorf("cp[0][1] of 'foo' should be 3 but is %v", cp[0][1])
+	}	
+	// a two words should come back as a two-element
+	// slice. positions should be {0,3},{4,7} for "foo bar"
+	cp = Locations([]byte("foo bar"))
+	if len(cp) != 2 {
+		t.Errorf("cp should be len 1 but is %v", len(cp))
+		t.Errorf("cp is %v", cp)
+	}
+	if cp[0][0] != 0 {
+		t.Errorf("cp[0][0] of 'foo bar' should be 0 but is %v", cp[0][0])
+	}	
+	if cp[0][1] != 3 {
+		t.Errorf("cp[0][1] of 'foo bar' should be 3 but is %v", cp[0][1])
+	}	
+	if cp[1][0] != 4 {
+		t.Errorf("cp[1][0] of 'foo bar' should be 4 but is %v", cp[1][0])
+	}	
+	if cp[1][1] != 7 {
+		t.Errorf("cp[1][1] of 'foo bar' should be 7 but is %v", cp[1][1])
+	}	
+	// a single quoted word should come back as a single-element
+	// slice. positions should be {1,4} for "'foo'"
+	cp = Locations([]byte("'foo'"))
+	if len(cp) != 1 {
+		t.Errorf("cp should be len 1 but is %v", len(cp))
+		t.Errorf("cp is %v", cp)
+	}
+	if cp[0][0] != 1 {
+		t.Errorf("cp[0][0] of 'foo' should be 1 but is %v", cp[0][0])
+	}	
+	if cp[0][1] != 4 {
+		t.Errorf("cp[0][1] of 'foo' should be 4 but is %v", cp[0][1])
+	}	
+	// a single quoted word should come back as a single-element
+	// slice. positions should be {1,4} for `"foo"`
+	cp = Locations([]byte(`"foo"`))
+	if len(cp) != 1 {
+		t.Errorf("cp should be len 1 but is %v", len(cp))
+		t.Errorf("cp is %v", cp)
+	}
+	if cp[0][0] != 1 {
+		t.Errorf("cp[0][0] of \"foo\" should be 1 but is %v", cp[0][0])
+	}	
+	if cp[0][1] != 4 {
+		t.Errorf("cp[0][1] of \"foo\" should be 4 but is %v", cp[0][1])
+	}	
+	// a single quoted word should come back as a single-element
+	// slice. positions should be {3,6} for "『foo』"
+	cp = Locations([]byte("『foo』"))
+	if len(cp) != 1 {
+		t.Errorf("cp should be len 1 but is %v", len(cp))
+		t.Errorf("cp is %v", cp)
+	}
+	if cp[0][0] != 3 {
+		t.Errorf("cp[0][0] of 『foo』 should be 3 but is %v", cp[0][0])
+	}	
+	if cp[0][1] != 6 {
+		t.Errorf("cp[0][1] of 『foo』 should be 6 but is %v", cp[0][1])
+	}	
+	// two quoted words should come back as a single-element
+	// slice. positions should be {1,8} for "'foo bar'"
+	cp = Locations([]byte("'foo bar'"))
+	if len(cp) != 1 {
+		t.Errorf("cp should be len 1 but is %v", len(cp))
+		t.Errorf("cp is %v", cp)
+	}
+	if cp[0][0] != 1 {
+		t.Errorf("cp[0][0] of 'foo' should be 1 but is %v", cp[0][0])
+	}	
+	if cp[0][1] != 8 {
+		t.Errorf("cp[0][1] of 'foo' should be 8 but is %v", cp[0][1])
+	}	
+	// two words, one quoted and one not, should come back as a two-element
+	// slice. positions should be {1,4},{6,9} for "'foo' bar"
+	cp = Locations([]byte("'foo' bar"))
+	if len(cp) != 2 {
+		t.Errorf("cp should be len 2 but is %v", len(cp))
+		t.Errorf("cp is %v", cp)
+	}
+	if cp[0][0] != 1 {
+		t.Errorf("cp[0][0] of \"'foo' bar\" should be 1 but is %v", cp[0][0])
+	}	
+	if cp[0][1] != 4 {
+		t.Errorf("cp[0][1] of \"'foo' bar\" should be 4 but is %v", cp[0][1])
+	}	
+	if cp[1][0] != 6 {
+		t.Errorf("cp[1][0] of \"'foo' bar\" should be 6 but is %v", cp[1][0])
+	}	
+	if cp[1][1] != 9 {
+		t.Errorf("cp[1][1] of \"'foo' bar\" should be 9 but is %v", cp[1][1])
+	}	
+}
+
 func TestQsplit(t *testing.T) {
 	// the empty string should come back as a nil
 	qs := ToBytes([]byte(""))
@@ -54,12 +169,13 @@ func TestQsplit(t *testing.T) {
 	qs = ToBytes([]byte(`"foo bar" baz`))
 	if len(qs) != 2 {
 		t.Errorf("qs should be len 2 but is %v", len(qs))
-	}
-	if string(qs[0]) != "foo bar" {
-		t.Errorf("should be 'foo bar' but got '%v'", string(qs[0]))
-	}
-	if string(qs[1]) != "baz" {
-		t.Errorf("should be 'baz' but got '%v'", string(qs[1]))
+	} else {
+		if string(qs[0]) != "foo bar" {
+			t.Errorf("should be 'foo bar' but got '%v'", string(qs[0]))
+		}
+		if string(qs[1]) != "baz" {
+			t.Errorf("should be 'baz' but got '%v'", string(qs[1]))
+		}
 	}
 	
 	// ends with quote
