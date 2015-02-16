@@ -260,7 +260,7 @@ func TestQsplitString(t *testing.T) {
 		t.Errorf("'foo' should come back as 'foo' but got '%v'", string(qs[0]))
 	}
 	if qs[1] != "bar" {
-		t.Errorf("'bar' should come back as 'bar' but got '%v'", string(qs[0]))
+		t.Errorf("'bar' should come back as 'bar' but got '%v'", string(qs[1]))
 	}
 }
 
@@ -278,3 +278,27 @@ func TestQsplitStringByte(t *testing.T) {
 		}
 	}
 }
+
+func TestOnce(t *testing.T) {
+	qs := Once([]byte("foo bar baz"))
+	if len(qs) != 2 {
+		t.Errorf("qs should be len 2 but is %v", len(qs))
+	}
+	if string(qs[0]) != "foo" {
+		t.Errorf("'foo' should come back as 'foo' but got '%v'", string(qs[0]))
+	}
+	if string(qs[1]) != "bar baz" {
+		t.Errorf("'bar' should come back as 'bar' but got '%v'", string(qs[1]))
+	}
+	qs = Once([]byte("'foo bar' baz"))
+	if len(qs) != 2 {
+		t.Errorf("qs should be len 2 but is %v", len(qs))
+	}
+	if string(qs[0]) != "foo bar" {
+		t.Errorf("'foo' should come back as 'foo' but got '%v'", string(qs[0]))
+	}
+	if string(qs[1]) != "baz" {
+		t.Errorf("'bar' should come back as 'bar' but got '%v'", string(qs[1]))
+	}
+}
+

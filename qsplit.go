@@ -129,3 +129,13 @@ func ToStringBytes(b []byte) (string, [][]byte) {
 	bslices := ToBytes(b)
 	return string(bslices[0]), bslices[1:]
 }
+
+// Once performs a single quoted split, returning the first chunk
+// found in the input byteslice, and the remainder of the byteslice
+func Once(b []byte) ([][]byte) {
+	var sb [][]byte // slice of slice of bytes
+	cp := Locations(b) // get chunk positions
+	sb = append(sb, b[cp[0][0]:cp[0][1]])
+	sb = append(sb, b[cp[1][0]:])
+	return sb
+}
