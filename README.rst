@@ -19,17 +19,10 @@ See the package doc for more information.
 
 * Current version: 2.1.0 (2015-02-15)
 
-* Install: :code:`go get firepear.net/goutils/qsplit`
+* Install: :code:`go get firepear.net/qsplit`
 
-* `Release notes <http://firepear.net/goutils/qsplit/RELEASE_NOTES.txt>`_
+* `Release notes <http://github.com/firepear/qsplit/blob/master/RELEASE_NOTES>`_
 
-* `Package documentation <http://godoc.org/firepear.net/goutils/qsplit>`_
+* `Package documentation <http://godoc.org/firepear.net/qsplit>`_
 
-* `Coverage report <http://firepear.net/goutils/qsplit/coverage.html>`_
-
-* `Issue tracker <https://firepear.atlassian.net/browse/QSPLIT>`_
-
-* Source repo: :code:`git://firepear.net/goutils/qsplit.git`
-
-
-Send questions, suggestions, or problem reports to shawn@firepear.net
+* `Coverage report <http://firepear.net/qsplit/coverage.html>`_

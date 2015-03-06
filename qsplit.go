@@ -22,7 +22,7 @@ These are the rules used to delineate chunks of quoted text:
     * Quotes do not nest
 
 */
-package qsplit
+package qsplit // import "firepear.net/qsplit"
 
 // Copyright (c) 2014,2015 Shawn Boyette <shawn@firepear.net>. All
 // rights reserved.  Use of this source code is governed by a
