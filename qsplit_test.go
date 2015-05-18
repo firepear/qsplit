@@ -23,10 +23,10 @@ func TestLocations(t *testing.T) {
 	}
 	if cp[0][0] != 0 {
 		t.Errorf("cp[0][0] of 'foo' should be 0 but is %v", cp[0][0])
-	}	
+	}
 	if cp[0][1] != 3 {
 		t.Errorf("cp[0][1] of 'foo' should be 3 but is %v", cp[0][1])
-	}	
+	}
 	// a two words should come back as a two-element
 	// slice. positions should be {0,3},{4,7} for "foo bar"
 	cp = Locations([]byte("foo bar"))
@@ -36,16 +36,16 @@ func TestLocations(t *testing.T) {
 	}
 	if cp[0][0] != 0 {
 		t.Errorf("cp[0][0] of 'foo bar' should be 0 but is %v", cp[0][0])
-	}	
+	}
 	if cp[0][1] != 3 {
 		t.Errorf("cp[0][1] of 'foo bar' should be 3 but is %v", cp[0][1])
-	}	
+	}
 	if cp[1][0] != 4 {
 		t.Errorf("cp[1][0] of 'foo bar' should be 4 but is %v", cp[1][0])
-	}	
+	}
 	if cp[1][1] != 7 {
 		t.Errorf("cp[1][1] of 'foo bar' should be 7 but is %v", cp[1][1])
-	}	
+	}
 	// a single quoted word should come back as a single-element
 	// slice. positions should be {1,4} for "'foo'"
 	cp = Locations([]byte("'foo'"))
@@ -55,10 +55,10 @@ func TestLocations(t *testing.T) {
 	}
 	if cp[0][0] != 1 {
 		t.Errorf("cp[0][0] of 'foo' should be 1 but is %v", cp[0][0])
-	}	
+	}
 	if cp[0][1] != 4 {
 		t.Errorf("cp[0][1] of 'foo' should be 4 but is %v", cp[0][1])
-	}	
+	}
 	// a single quoted word should come back as a single-element
 	// slice. positions should be {1,4} for `"foo"`
 	cp = Locations([]byte(`"foo"`))
@@ -68,10 +68,10 @@ func TestLocations(t *testing.T) {
 	}
 	if cp[0][0] != 1 {
 		t.Errorf("cp[0][0] of \"foo\" should be 1 but is %v", cp[0][0])
-	}	
+	}
 	if cp[0][1] != 4 {
 		t.Errorf("cp[0][1] of \"foo\" should be 4 but is %v", cp[0][1])
-	}	
+	}
 	// a single quoted word should come back as a single-element
 	// slice. positions should be {3,6} for "『foo』"
 	cp = Locations([]byte("『foo』"))
@@ -81,10 +81,10 @@ func TestLocations(t *testing.T) {
 	}
 	if cp[0][0] != 3 {
 		t.Errorf("cp[0][0] of 『foo』 should be 3 but is %v", cp[0][0])
-	}	
+	}
 	if cp[0][1] != 6 {
 		t.Errorf("cp[0][1] of 『foo』 should be 6 but is %v", cp[0][1])
-	}	
+	}
 	// two quoted words should come back as a single-element
 	// slice. positions should be {1,8} for "'foo bar'"
 	cp = Locations([]byte("'foo bar'"))
@@ -94,10 +94,10 @@ func TestLocations(t *testing.T) {
 	}
 	if cp[0][0] != 1 {
 		t.Errorf("cp[0][0] of 'foo' should be 1 but is %v", cp[0][0])
-	}	
+	}
 	if cp[0][1] != 8 {
 		t.Errorf("cp[0][1] of 'foo' should be 8 but is %v", cp[0][1])
-	}	
+	}
 	// two words, one quoted and one not, should come back as a two-element
 	// slice. positions should be {1,4},{6,9} for "'foo' bar"
 	cp = Locations([]byte("'foo' bar"))
@@ -107,16 +107,16 @@ func TestLocations(t *testing.T) {
 	}
 	if cp[0][0] != 1 {
 		t.Errorf("cp[0][0] of \"'foo' bar\" should be 1 but is %v", cp[0][0])
-	}	
+	}
 	if cp[0][1] != 4 {
 		t.Errorf("cp[0][1] of \"'foo' bar\" should be 4 but is %v", cp[0][1])
-	}	
+	}
 	if cp[1][0] != 6 {
 		t.Errorf("cp[1][0] of \"'foo' bar\" should be 6 but is %v", cp[1][0])
-	}	
+	}
 	if cp[1][1] != 9 {
 		t.Errorf("cp[1][1] of \"'foo' bar\" should be 9 but is %v", cp[1][1])
-	}	
+	}
 }
 
 func TestQsplit(t *testing.T) {
@@ -125,13 +125,13 @@ func TestQsplit(t *testing.T) {
 	if qs != nil {
 		t.Errorf("Empty string should be nil but got '%v'", string(qs[0]))
 	}
-	
+
 	// all whitespace should also be nil
 	qs = ToBytes([]byte("  \t       \t\t  "))
 	if qs != nil {
 		t.Errorf("Empty string should be nil but got '%v'", string(qs[0]))
 	}
-	
+
 	// a single word should come back as itself
 	qs = ToBytes([]byte("foo"))
 	if len(qs) != 1 {
@@ -140,7 +140,7 @@ func TestQsplit(t *testing.T) {
 	if string(qs[0]) != "foo" {
 		t.Errorf("'foo' should come back as 'foo' but got '%v'", string(qs[0]))
 	}
-	
+
 	// two words
 	qs = ToBytes([]byte("foo bar"))
 	if len(qs) != 2 {
@@ -152,7 +152,7 @@ func TestQsplit(t *testing.T) {
 	if string(qs[1]) != "bar" {
 		t.Errorf("'bar' should come back as 'bar' but got '%v'", string(qs[0]))
 	}
-	
+
 	// two words with leading space and extra interspacing
 	qs = ToBytes([]byte("     foo \t  bar"))
 	if len(qs) != 2 {
@@ -164,7 +164,7 @@ func TestQsplit(t *testing.T) {
 	if string(qs[1]) != "bar" {
 		t.Errorf("'bar' should come back as 'bar' but got '%v'", string(qs[1]))
 	}
-	
+
 	// begins with quote
 	qs = ToBytes([]byte(`"foo bar" baz`))
 	if len(qs) != 2 {
@@ -177,7 +177,7 @@ func TestQsplit(t *testing.T) {
 			t.Errorf("should be 'baz' but got '%v'", string(qs[1]))
 		}
 	}
-	
+
 	// ends with quote
 	qs = ToBytes([]byte(`foo 'bar baz'`))
 	if len(qs) != 2 {
@@ -189,7 +189,7 @@ func TestQsplit(t *testing.T) {
 	if string(qs[1]) != "bar baz" {
 		t.Errorf("should be 'bar baz' but got '%v'", string(qs[1]))
 	}
-	
+
 	// unterminated quote
 	qs = ToBytes([]byte(`foo 'bar baz"`))
 	if len(qs) != 2 {
@@ -201,7 +201,7 @@ func TestQsplit(t *testing.T) {
 	if string(qs[1]) != `bar baz"` {
 		t.Errorf("should be 'bar baz\"' but got '%v'", string(qs[1]))
 	}
-	
+
 	// looks like a quote but isn't (not on word boundary)
 	qs = ToBytes([]byte(`foo bar'baz' quux`))
 	if len(qs) != 3 {
@@ -216,7 +216,7 @@ func TestQsplit(t *testing.T) {
 	if string(qs[2]) != "quux" {
 		t.Errorf("should be 'quux' but got '%v'", string(qs[2]))
 	}
-	
+
 	// non-ASCII quotes
 	qs = ToBytes([]byte(`‹foo "bar"› xyz «「1 2 3』» abc 「this is a test」`))
 	if len(qs) != 5 {
@@ -227,7 +227,7 @@ func TestQsplit(t *testing.T) {
 			t.Errorf("qs[%v] should be `%v` but is `%v`", i, teststr, string(qs[i]))
 		}
 	}
-	
+
 	// quotes end on closing quote, not on closing quote + word boundary
 	qs = ToBytes([]byte(`foo "bar"baz`))
 	if len(qs) != 3 {
@@ -238,7 +238,7 @@ func TestQsplit(t *testing.T) {
 			t.Errorf("qs[%v] should be `%v` but is `%v`", i, teststr, string(qs[i]))
 		}
 	}
-	
+
 	// some of everything, including trailing space
 	qs = ToBytes([]byte(`foo 'bar baz' ‹lorem     ipsum›     «a b c d e» x y  `))
 	if len(qs) != 6 {
