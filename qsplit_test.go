@@ -4,11 +4,13 @@ import (
 	"testing"
 )
 
-var testStrings = []string{
-	"foo",
-	"foo bar",
-	"foo 'bar baz' quux",
-	`data {"firstName": "John", "lastName": "Smith", "isAlive": true, "age": 25, "address": {"streetAddress": "21 2nd Street", "city": "New York", "state": "NY", "postalCode": "10021-3100"}, "phoneNumbers": [{"type": "home", "number": "212 555-1234"}, {"type": "office", "number": "646 555-4567"}], "children": [], "spouse": null}`,
+var testBytes [][]byte
+
+func init() {
+	testBytes = append(testBytes, []byte("foo"))
+	testBytes = append(testBytes, []byte("foo bar"))
+	testBytes = append(testBytes, []byte("foo 'bar baz' quux"))
+	testBytes = append(testBytes, []byte(`data {"firstName": "John", "lastName": "Smith", "isAlive": true, "age": 25, "address": {"streetAddress": "21 2nd Street", "city": "New York", "state": "NY", "postalCode": "10021-3100"}, "phoneNumbers": [{"type": "home", "number": "212 555-1234"}, {"type": "office", "number": "646 555-4567"}], "children": [], "spouse": null}`))
 }
 
 func TestLocations(t *testing.T) {
@@ -310,11 +312,6 @@ func TestOnce(t *testing.T) {
 }
 
 func BenchmarkLocations(b *testing.B) {
-	var testBytes [][]byte
-	for _, str := range testStrings {
-		testBytes = append(testBytes, []byte(str))
-	}
-	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for _, byt := range testBytes {
 			Locations(byt)
@@ -323,14 +320,33 @@ func BenchmarkLocations(b *testing.B) {
 }
 
 func BenchmarkOnce(b *testing.B) {
-	var testBytes [][]byte
-	for _, str := range testStrings {
-		testBytes = append(testBytes, []byte(str))
-	}
-	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		for _, byt := range testBytes {
 			Once(byt)
+		}
+	}
+}
+
+func BenchmarkToBytes(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		for _, byt := range testBytes {
+			ToBytes(byt)
+		}
+	}
+}
+
+func BenchmarkToStringBytes(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		for _, byt := range testBytes {
+			ToStringBytes(byt)
+		}
+	}
+}
+
+func BenchmarkToStrings(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		for _, byt := range testBytes {
+			ToStrings(byt)
 		}
 	}
 }
