@@ -4,6 +4,13 @@ import (
 	"testing"
 )
 
+var testStrings = []string{
+	"foo",
+	"foo bar",
+	"foo 'bar baz' quux",
+	`data {"firstName": "John", "lastName": "Smith", "isAlive": true, "age": 25, "address": {"streetAddress": "21 2nd Street", "city": "New York", "state": "NY", "postalCode": "10021-3100"}, "phoneNumbers": [{"type": "home", "number": "212 555-1234"}, {"type": "office", "number": "646 555-4567"}], "children": [], "spouse": null}`,
+}
+
 func TestLocations(t *testing.T) {
 	// the empty string should come back as a nil
 	cp := Locations([]byte(""))
@@ -302,3 +309,28 @@ func TestOnce(t *testing.T) {
 	}
 }
 
+func BenchmarkLocations(b *testing.B) {
+	var testBytes [][]byte
+	for _, str := range testStrings {
+		testBytes = append(testBytes, []byte(str))
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		for _, byt := range testBytes {
+			Locations(byt)
+		}
+	}
+}
+
+func BenchmarkOnce(b *testing.B) {
+	var testBytes [][]byte
+	for _, str := range testStrings {
+		testBytes = append(testBytes, []byte(str))
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		for _, byt := range testBytes {
+			Once(byt)
+		}
+	}
+}
