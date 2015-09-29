@@ -34,7 +34,10 @@ import (
 )
 
 var (
-	Version = "2.1.2" // current version
+	// current version
+	Version = "2.1.2"
+
+	// the quotation marks we know about
 	quotes = map[rune]rune{
 		'\'':'\'', '"':'"',
 		'‹':'›', '«':'»',
