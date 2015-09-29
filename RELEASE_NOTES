@@ -1,3 +1,10 @@
+2.1.2 - 2015-08-29
+---------------------------------------------------------------------
+
+    * Performance improvement: removing regexp and the associated
+      string allocations resulted in a 4X-5X speedup.
+
+
 2.1.1 - 2015-08-29
 ---------------------------------------------------------------------
 

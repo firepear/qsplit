@@ -30,24 +30,17 @@ package qsplit // import "firepear.net/qsplit"
 
 import (
 	"bytes"
-	"regexp"
 	"unicode/utf8"
 )
 
 var (
-	Version = "2.1.0" // current version
-	spaceRE *regexp.Regexp
-	quotes  map[rune]rune
-)
-
-func init() {
-	spaceRE = regexp.MustCompile(`[\pZ\t]`)
-	quotes  = map[rune]rune{
+	Version = "2.1.2" // current version
+	quotes = map[rune]rune{
 		'\'':'\'', '"':'"',
 		'‹':'›', '«':'»',
 		'「':'」', '『':'』',
 	}
-}
+)
 
 // Locations finds where the input byteslice would be split, and
 // returns the beginning and end points of all text chunks which would
@@ -73,7 +66,7 @@ func Locations(b []byte) ([][2]int) {
 				inq = false
 				si = append(si, [2]int{i, idx})
 			}
-		case spaceRE.MatchString(string(rune)):
+		case rune == ' ' || rune == '\t':
 			// if looking at a space and inw is set, end the present
 			// chunk and append a new tuple. else just move on.
 			if inw {
