@@ -1,3 +1,13 @@
+2.2.0 - 2016-03-30
+---------------------------------------------------------------------
+
+    * New function, LocationsOnce, which is much faster than Locations
+      if you only need the start/end location of the first chunk and
+      the starting location of the second.
+
+    * Added ASCII backticks as a quote type.
+
+
 2.1.2 - 2015-08-29
 ---------------------------------------------------------------------
 

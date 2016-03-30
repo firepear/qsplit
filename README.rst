@@ -18,7 +18,7 @@ keeping quoted chunks together, in the manner of the shell.
 See the `package doc <http://godoc.org/firepear.net/qsplit>`_ for more
 information.
 
-* Current version: 2.1.0 (2015-02-15)
+* Current version: 2.2.0 (2016-03-30)
 
 * Install: :code:`go get firepear.net/qsplit`
 

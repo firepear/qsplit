@@ -9,10 +9,9 @@ horizontal tab).
 
 Qsplit is aware of several quote character pairs:
 
-    ASCII single: ''
-    ASCII double: ""
-    Guillemets:   ‹›, «»
-    Japanese:     「」,『』
+    ASCII::     '', "", ``
+    Guillemets: ‹›, «»
+    Japanese:   「」,『』
 
 These are the rules used to delineate chunks of quoted text:
 
@@ -20,6 +19,7 @@ These are the rules used to delineate chunks of quoted text:
     * Quotes extend to the first closing quotation mark which matches
       the opening quote (regardless of word boundaries)
     * Quotes do not nest
+    * Characters escaped by a backslash are not checked for quotiness
 
 */
 package qsplit // import "firepear.net/qsplit"
@@ -34,12 +34,12 @@ import (
 )
 
 var (
-	// current version
-	Version = "2.1.2"
+	// Version is the current version
+	Version = "2.2.0"
 
 	// the quotation marks we know about
 	quotes = map[rune]rune{
-		'\'':'\'', '"':'"',
+		'\'':'\'', '"':'"', '`':'`',
 		'‹':'›', '«':'»',
 		'「':'」', '『':'』',
 	}
@@ -49,12 +49,34 @@ var (
 // returns the beginning and end points of all text chunks which would
 // be returned by one of the To...() functions.
 func Locations(b []byte) ([][2]int) {
+	return realLocations(b, false)
+}
 
-	// then add qsplit.Once()
+// LocationsOnce finds the beginning and end point of the first chunk
+// of the input byteslice and the beginning of the next chunk. If no
+// chunks are found, the returned slice will be nil. If one chunk is
+// found, the last element of the slice will be -1.
+func LocationsOnce(b []byte) ([]int) {
+	s := realLocations(b, true)
+	var locs []int
+	if len(s) == 0 {
+		return locs
+	}
+	locs = append(locs, s[0][0])
+	locs = append(locs, s[0][1])
+	if len(s) == 1 {
+		locs = append(locs, -1)
+	} else {
+		locs = append(locs, s[1][0])
+	}
+	return locs
+}
 
-	var si [][2]int // slice of tuples of ints
-	var inw, inq, ok bool // in-word and in-quote flags; map test var
-	var rune, endq rune   // current rune; end-quote for current quote chunk
+// realLocations does the work for Locations and LocationsOnce
+func realLocations(b []byte, once bool) ([][2]int) {
+	var si [][2]int       // slice of tuples of ints
+	var inw, inq, ok bool // in-word, in-quote, escape flags; map test var
+	var rune, endq rune   // current rune; end-quote for current quote
 	var i, idx int        // first index of chunk; byte index of current rune
 
 	// we need to operate at the runes level
@@ -80,15 +102,20 @@ func Locations(b []byte) ([][2]int) {
 			// if in a regular word, do nothing
 		default:
 			if endq, ok = quotes[rune]; ok {
-				// looking at a quote; set inq and i
+				// looking at an unescaped quote; set inq and i
 				inq = true
 				i = idx + utf8.RuneLen(rune)
 			} else {
-				// looking at the first rune in a word. set inw& i
+				// looking at the first rune in a word. set inw & i
 				inw = true
 				i = idx
 			}
 		}
+		// if once-mode is on and we've found 2 chunks, return
+		if len(si) == 2 && once {
+			return si
+		}
+		// else update idx and prune
 		idx += utf8.RuneLen(rune)
 	}
 	// append the tuple for the last chunk if we were still in a word

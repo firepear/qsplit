@@ -311,10 +311,35 @@ func TestOnce(t *testing.T) {
 	}
 }
 
+func TestLocationsOnce(t *testing.T) {
+	cp := LocationsOnce([]byte("foo bar"))
+	if len(cp) != 3 {
+		t.Errorf("cp should be len 3 but is %v", len(cp))
+		t.Errorf("cp is %v", cp)
+	}
+	if cp[0] != 0 {
+		t.Errorf("cp[0] should be 0 but is %v", cp[0])
+	}
+	if cp[1] != 3 {
+		t.Errorf("cp[1] should be 3 but is %v", cp[1])
+	}
+	if cp[2] != 4 {
+		t.Errorf("cp[2] should be 4 but is %v", cp[2])
+	}
+}
+
 func BenchmarkLocations(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for _, byt := range testBytes {
 			Locations(byt)
+		}
+	}
+}
+
+func BenchmarkLocationsOnce(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		for _, byt := range testBytes {
+			LocationsOnce(byt)
 		}
 	}
 }
