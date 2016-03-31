@@ -343,7 +343,7 @@ func TestLocationsOnce(t *testing.T) {
 	if cp[1] != 3 {
 		t.Errorf("cp[1] should be 3 but is %v", cp[1])
 	}
-	if cp[2] != 0 {
+	if cp[2] != -1 {
 		t.Errorf("cp[2] should be 0 but is %v", cp[2])
 	}
 }

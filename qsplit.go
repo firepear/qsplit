@@ -32,7 +32,7 @@ import (
 
 var (
 	// Version is the current version
-	Version = "2.2.1"
+	Version = "2.2.2"
 
 	// the quotation marks we know about
 	quotes = map[rune]rune{
@@ -54,8 +54,8 @@ func Locations(b []byte) ([][2]int) {
 // Locations.
 //
 // If no chunks are found, the first element of the returned array
-// will be -1. If only one chunk is found, the third element will be
-// 0.
+// will be -1. Similarly, if only one chunk is found, the third
+// element will be -1.
 func LocationsOnce(b []byte) ([3]int) {
 	s := realLocations(b, true)
 	var locs [3]int
@@ -66,6 +66,8 @@ func LocationsOnce(b []byte) ([3]int) {
 		locs[1] = s[0][1]
 		if len(s) == 2 {
 			locs[2] = s[1][0]
+		} else {
+			locs[2] = -1
 		}
 	}
 	return locs
