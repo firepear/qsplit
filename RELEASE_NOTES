@@ -1,3 +1,13 @@
+2.2.1 - 2016-03-30
+---------------------------------------------------------------------
+
+    * LocationsOnce now returns [3]int instead of []int. The
+      slice-based implementation benchmarked at 1.8X faster than
+      Locations. This change makes it 2X faster.
+
+    * Better testing for LocationsOnce
+
+
 2.2.0 - 2016-03-30
 ---------------------------------------------------------------------
 

@@ -1,30 +1,27 @@
 /*
-Package qsplit (short for "quoted split") performs a smart,
-Unicode-aware split-on-whitespace. It returns a slice of the
-non-whitespace "chunks" contained in a byte slice. It treats text
-within balanced quotes as a single chunk.
+Package qsplit (short for "quoted split") performs a Unix shell style
+split-on-whitespace of its input. Its functions return the
+non-whitespace "chunks" contained in their input, treating text within
+balanced quotes as a single chunk.
 
-Whitespace, according to qsplit, is `[\pZ\t]` (Unicode separators plus
-horizontal tab).
-
-Qsplit is aware of several quote character pairs:
+Whitespace, according to qsplit, is the ASCII space and horizontal tab
+characters. qsplit is aware of several quote character pairs:
 
     ASCII::     '', "", ``
     Guillemets: ‹›, «»
     Japanese:   「」,『』
 
-These are the rules used to delineate chunks of quoted text:
+These are the rules used to delineate chunks:
 
     * Quotes begin only at a word boundary
     * Quotes extend to the first closing quotation mark which matches
-      the opening quote (regardless of word boundaries)
+      the opening quote, which may or may not be at a word boundary.
     * Quotes do not nest
-    * Characters escaped by a backslash are not checked for quotiness
 
 */
 package qsplit // import "firepear.net/qsplit"
 
-// Copyright (c) 2014,2015 Shawn Boyette <shawn@firepear.net>. All
+// Copyright (c) 2014-2016 Shawn Boyette <shawn@firepear.net>. All
 // rights reserved.  Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -35,7 +32,7 @@ import (
 
 var (
 	// Version is the current version
-	Version = "2.2.0"
+	Version = "2.2.1"
 
 	// the quotation marks we know about
 	quotes = map[rune]rune{
@@ -45,29 +42,31 @@ var (
 	}
 )
 
-// Locations finds where the input byteslice would be split, and
-// returns the beginning and end points of all text chunks which would
-// be returned by one of the To...() functions.
+// Locations finds and returns the beginning and end points of all
+// text chunks in its input.
 func Locations(b []byte) ([][2]int) {
 	return realLocations(b, false)
 }
 
-// LocationsOnce finds the beginning and end point of the first chunk
-// of the input byteslice and the beginning of the next chunk. If no
-// chunks are found, the returned slice will be nil. If one chunk is
-// found, the last element of the slice will be -1.
-func LocationsOnce(b []byte) ([]int) {
+// LocationsOnce finds and returns only the beginning and end point of
+// the first chunk, and the beginning of the next chunk. If this is
+// all you need, LocationsOnce is significantly faster than
+// Locations.
+//
+// If no chunks are found, the first element of the returned array
+// will be -1. If only one chunk is found, the third element will be
+// 0.
+func LocationsOnce(b []byte) ([3]int) {
 	s := realLocations(b, true)
-	var locs []int
+	var locs [3]int
 	if len(s) == 0 {
-		return locs
-	}
-	locs = append(locs, s[0][0])
-	locs = append(locs, s[0][1])
-	if len(s) == 1 {
-		locs = append(locs, -1)
+		locs[0] = -1
 	} else {
-		locs = append(locs, s[1][0])
+		locs[0] = s[0][0]
+		locs[1] = s[0][1]
+		if len(s) == 2 {
+			locs[2] = s[1][0]
+		}
 	}
 	return locs
 }
