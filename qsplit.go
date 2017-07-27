@@ -36,15 +36,15 @@ var (
 
 	// the quotation marks we know about
 	quotes = map[rune]rune{
-		'\'':'\'', '"':'"', '`':'`',
-		'‹':'›', '«':'»',
-		'「':'」', '『':'』',
+		'\'': '\'', '"': '"', '`': '`',
+		'‹': '›', '«': '»',
+		'「': '」', '『': '』',
 	}
 )
 
 // Locations finds and returns the beginning and end points of all
 // text chunks in its input.
-func Locations(b []byte) ([][2]int) {
+func Locations(b []byte) [][2]int {
 	return realLocations(b, false)
 }
 
@@ -56,7 +56,7 @@ func Locations(b []byte) ([][2]int) {
 // If no chunks are found, the first element of the returned array
 // will be -1. Similarly, if only one chunk is found, the third
 // element will be -1.
-func LocationsOnce(b []byte) ([3]int) {
+func LocationsOnce(b []byte) [3]int {
 	s := realLocations(b, true)
 	var locs [3]int
 	if len(s) == 0 {
@@ -74,7 +74,7 @@ func LocationsOnce(b []byte) ([3]int) {
 }
 
 // realLocations does the work for Locations and LocationsOnce
-func realLocations(b []byte, once bool) ([][2]int) {
+func realLocations(b []byte, once bool) [][2]int {
 	var si [][2]int       // slice of tuples of ints
 	var inw, inq, ok bool // in-word, in-quote, escape flags; map test var
 	var rune, endq rune   // current rune; end-quote for current quote
@@ -129,7 +129,7 @@ func realLocations(b []byte, once bool) ([][2]int) {
 
 // ToBytes performs a quoted split to a slice of byteslices.
 func ToBytes(b []byte) [][]byte {
-	var sb [][]byte // slice of slice of bytes
+	var sb [][]byte    // slice of slice of bytes
 	cp := Locations(b) // get chunk positions
 	for _, pos := range cp {
 		sb = append(sb, b[pos[0]:pos[1]])
@@ -156,8 +156,8 @@ func ToStringBytes(b []byte) (string, [][]byte) {
 
 // Once performs a single quoted split, returning the first chunk
 // found in the input byteslice, and the remainder of the byteslice
-func Once(b []byte) ([][]byte) {
-	var sb [][]byte // slice of slice of bytes
+func Once(b []byte) [][]byte {
+	var sb [][]byte    // slice of slice of bytes
 	cp := Locations(b) // get chunk positions
 	if len(cp) == 1 {
 		sb = append(sb, b)
