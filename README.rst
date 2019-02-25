@@ -15,14 +15,9 @@ keeping quoted chunks together, in the manner of the shell (mostly).
     `a b ‹c d "e f"›`  -> {`a`, `b`, `c d "e f"`}
     `a b'cd e'f`       -> {`a`, `b'cd`, `e'f`}
 
-See the `package doc <http://godoc.org/firepear.net/qsplit>`_ for more
+See the `package doc <http://godoc.org/github.com/firepear/qsplit>`_ for more
 information.
 
-* Current version: 2.2.2 (2016-03-30)
+* Current version: 2.2.3 (2019-02-25)
 
-* Install: :code:`go get firepear.net/qsplit`
-
-* `Coverage report <http://firepear.net/qsplit/coverage.html>`_
-
-* `Github <http://github.com/firepear/qsplit/>`_
-
+* Install: :code:`go get github.com/firepear/qsplit`

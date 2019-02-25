@@ -19,7 +19,7 @@ These are the rules used to delineate chunks:
     * Quotes do not nest
 
 */
-package qsplit // import "firepear.net/qsplit"
+package qsplit // import "github.com/firepear/qsplit"
 
 // Copyright (c) 2014-2016 Shawn Boyette <shawn@firepear.net>. All
 // rights reserved.  Use of this source code is governed by a
