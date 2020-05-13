@@ -7,16 +7,18 @@ balanced quotes as a single chunk.
 Whitespace, according to qsplit, is the ASCII space and horizontal tab
 characters. qsplit is aware of several quote character pairs:
 
-    ASCII::     '', "", ``
+    ASCII:      '', "", ``
     Guillemets: ‹›, «»
     Japanese:   「」,『』
 
 These are the rules used to delineate chunks:
 
-    * Quotes begin only at a word boundary
-    * Quotes extend to the first closing quotation mark which matches
-      the opening quote, which may or may not be at a word boundary.
-    * Quotes do not nest
+- Quotes begin only at a word boundary
+
+- Quotes extend to the first closing quotation mark which matches the
+  opening quote, which may or may not be at a word boundary.
+
+- Quotes do not nest
 
 */
 package qsplit // import "github.com/firepear/qsplit"
@@ -31,9 +33,6 @@ import (
 )
 
 var (
-	// Version is the current version
-	Version = "2.2.2"
-
 	// the quotation marks we know about
 	quotes = map[rune]rune{
 		'\'': '\'', '"': '"', '`': '`',
@@ -42,16 +41,15 @@ var (
 	}
 )
 
-// Locations finds and returns the beginning and end points of all
-// text chunks in its input.
+// Locations returns the beginning and end points of all text chunks
+// in its input.
 func Locations(b []byte) [][2]int {
 	return realLocations(b, false)
 }
 
-// LocationsOnce finds and returns only the beginning and end point of
-// the first chunk, and the beginning of the next chunk. If this is
-// all you need, LocationsOnce is significantly faster than
-// Locations.
+// LocationsOnce returns the beginning and end point of the first
+// chunk, and the beginning of the next chunk. If this is all you
+// need, LocationsOnce is significantly faster than Locations.
 //
 // If no chunks are found, the first element of the returned array
 // will be -1. Similarly, if only one chunk is found, the third
