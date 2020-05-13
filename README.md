@@ -28,4 +28,4 @@ information.
 
 ## Use
 
-`go get github.com/firepear/qsplit` or just import it!
+`go get github.com/firepear/qsplit/v2` or just import it!
