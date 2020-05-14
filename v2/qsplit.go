@@ -13,17 +13,15 @@ characters. qsplit is aware of several quote character pairs:
 
 These are the rules used to delineate chunks:
 
-- Quotes begin only at a word boundary
-
-- Quotes extend to the first closing quotation mark which matches the
-  opening quote, which may or may not be at a word boundary.
-
-- Quotes do not nest
+    - Quotes begin only at a word boundary
+    - Quotes extend to the first closing quotation mark which matches the
+      opening quote, which may or may not be at a word boundary.
+    - Quotes do not nest
 
 */
-package qsplit // import "github.com/firepear/qsplit"
+package qsplit // import "github.com/firepear/qsplit/v2"
 
-// Copyright (c) 2014-2016 Shawn Boyette <shawn@firepear.net>. All
+// Copyright (c) 2014-2020 Shawn Boyette <shawn@firepear.net>. All
 // rights reserved.  Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
