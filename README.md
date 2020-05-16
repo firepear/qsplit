@@ -14,7 +14,7 @@ keeping quoted chunks together, in the manner of the shell (mostly).
 The library is tuned for speed, and the definition of quote characters
 is configurable.
 
-See the [package doc](http://godoc.org/github.com/firepear/qsplit) for more
+See the [package doc](https://pkg.go.dev/github.com/firepear/qsplit/v2?tab=doc) for more
 information.
 
 ## News
