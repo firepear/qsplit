@@ -32,11 +32,8 @@ import (
 
 var (
 	// the quotation marks we know about
-	quotes = map[rune]rune{
-		'\'': '\'', '"': '"', '`': '`',
-		'‹': '›', '«': '»',
-		'「': '」', '『': '』',
-	}
+	qo = [7]rune{'\'', '"', '`', '‹', '«', '「', '『'}
+	qc = [7]rune{'\'', '"', '`', '›', '»', '」', '』'}
 )
 
 // Locations returns the beginning and end points of all text chunks
@@ -71,26 +68,27 @@ func LocationsOnce(b []byte) [3]int {
 
 // realLocations does the work for Locations and LocationsOnce
 func realLocations(b []byte, once bool) [][2]int {
-	var si [][2]int       // slice of tuples of ints (chunk locations)
-	var inw, inq, ok bool // in-word, in-quote, escape flags; map test var
-	var rune, endq rune   // current rune; end-quote for current quote
-	var i, idx int        // first index of chunk; byte index of current rune
+	var si [][2]int     // slice of tuples of ints (chunk locations)
+	var inw, inq bool   // in-word, in-quote, escape flags; map test var
+	var rune, endq rune // current rune; end-quote for current quote
+	var i, j, idx int   // first index of chunk; qo loop; byte index of current rune
 
 	// we need to operate at the runes level
 	runes := bytes.Runes(b)
 	for _, rune = range runes {
 		switch {
 		case inq:
-			// in a quoted chunk, if we're looking at the ending
-			// quote, unset inq and append a the tuple for this chunk
-			// to the return list.
+			// in a quoted chunk, if we're looking at the
+			// ending quote, unset inq and append a the
+			// tuple for this chunk to the return list.
 			if rune == endq {
 				inq = false
 				si = append(si, [2]int{i, idx})
 			}
 		case rune == ' ' || rune == '\t':
-			// if looking at a space and inw is set, end the present
-			// chunk and append a new tuple. else just move on.
+			// if looking at a space and inw is set, end
+			// the present chunk and append a new
+			// tuple. else just move on.
 			if inw {
 				inw = false
 				si = append(si, [2]int{i, idx})
@@ -98,12 +96,23 @@ func realLocations(b []byte, once bool) [][2]int {
 		case inw:
 			// if in a regular word, do nothing
 		default:
-			if endq, ok = quotes[rune]; ok {
-				// looking at an unescaped quote; set inq and i
-				inq = true
-				i = idx + utf8.RuneLen(rune)
-			} else {
-				// looking at the first rune in a word. set inw & i
+			for j = 0; j < 7; j++ {
+				// loop over quote-open runes, looking
+				// for a match
+				if rune == qo[j] {
+					// looking at an unescaped
+					// quote; set endq, inq, and i
+					endq = qc[j]
+					inq = true
+					i = idx + utf8.RuneLen(rune)
+					// don't keep checking quote-opens
+					break
+				}
+			}
+			if !inq {
+				// not a quote, so we're looking at
+				// the first rune in a word. set inw &
+				// i
 				inw = true
 				i = idx
 			}
@@ -115,8 +124,8 @@ func realLocations(b []byte, once bool) [][2]int {
 		// else update idx and prune
 		idx += utf8.RuneLen(rune)
 	}
-	// append the tuple for the last chunk if we were still in a word
-	// or quote
+	// append the tuple for the last chunk if we were still in a
+	// word or quote
 	if inw || inq {
 		si = append(si, [2]int{i, idx})
 	}

@@ -1,3 +1,12 @@
+2.4.0 - 2020-05-xx
+---------------------------------------------------------------------
+
+    * Refactored Locations and LocationsOnce to iterate over a list of
+      quote characters, rather than do a map lookup. With the original
+      7 pairs, the speedup was 9.3% for Locations and 1.5% for
+      LocationsOnce (averaged over 5 benchmark runs)
+
+
 2.3.1 - 2020-05-14
 ---------------------------------------------------------------------
 

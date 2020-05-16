@@ -59,7 +59,7 @@ func TestLocations(t *testing.T) {
 	cp = Locations([]byte("'foo'"))
 	if len(cp) != 1 {
 		t.Errorf("cp should be len 1 but is %v", len(cp))
-		t.Errorf("cp is %v", cp)
+		t.Errorf("cp should be [[1, 4]] but is %v", cp)
 	}
 	if cp[0][0] != 1 {
 		t.Errorf("cp[0][0] of 'foo' should be 1 but is %v", cp[0][0])
