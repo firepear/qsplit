@@ -27,6 +27,10 @@ information.
 - 2020-05-13: v2.3.1: Fix for import path after module transition
 - 2020-05-13: v2.3.0: `qsplit` is now a Go module
 
+See the [Release
+notes](https://github.com/firepear/qsplit/blob/master/RELEASE_NOTES)
+for all updates.
+
 ## Use
 
 `go get github.com/firepear/qsplit/v2` or just import it!
