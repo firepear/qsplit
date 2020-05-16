@@ -33,7 +33,10 @@ var (
 	// the quotation marks we know about
 	qo = []rune{'\'', '"'}
 	qc = []rune{'\'', '"'}
+	// length of the list of quotes
 	qlen = len(qo)
+	// this gets returned when LocationsOnce finds no chunks
+	onceNoLocs = [3]int{-1, -1, -1}
 )
 
 
@@ -64,19 +67,14 @@ func Locations(b []byte) [][2]int {
 // element will be -1.
 func LocationsOnce(b []byte) [3]int {
 	s := realLocations(b, true)
-	var locs [3]int
-	if len(s) == 0 {
-		locs[0] = -1
+	slen := len(s)
+	if slen == 2 {
+		return [3]int{ s[0][0], s[0][1], s[1][0] }
+	} else if slen == 1 {
+		return [3]int{ s[0][0], s[0][1], -1 }
 	} else {
-		locs[0] = s[0][0]
-		locs[1] = s[0][1]
-		if len(s) == 2 {
-			locs[2] = s[1][0]
-		} else {
-			locs[2] = -1
-		}
+		return onceNoLocs
 	}
-	return locs
 }
 
 // realLocations does the work for Locations and LocationsOnce
@@ -100,7 +98,7 @@ func realLocations(b []byte, once bool) [][2]int {
 				si = append(si, [2]int{i, idx})
 			}
 		case rune == ' ' || rune == '\t':
-			// if looking at a space and inw is set, end
+			// if looking whitespace and inw is set, end
 			// the present chunk and append a new
 			// tuple. else just move on.
 			if inw {
@@ -110,16 +108,22 @@ func realLocations(b []byte, once bool) [][2]int {
 		case inw:
 			// if in a regular word, do nothing
 		default:
+			// loop over quote-open runes, looking for a
+			// match
 			for j = 0; j < qlen; j++ {
-				// loop over quote-open runes, looking
-				// for a match
 				if rune == qo[j] {
-					// looking at an unescaped
-					// quote; set endq, inq, and i
+					// looking at a quote; set
+					// endq, inq, and i
 					endq = qc[j]
 					inq = true
+					// if this is the 2nd chunk and we're
+					// in once mode, return now
 					i = idx + utf8.RuneLen(rune)
-					// don't keep checking quote-opens
+					if once && len(si) == 1 && ( inq || inw) {
+						si = append(si, [2]int{i, -1})
+						return si
+					}
+					// quit checking qos
 					break
 				}
 			}
@@ -129,11 +133,13 @@ func realLocations(b []byte, once bool) [][2]int {
 				// i
 				inw = true
 				i = idx
+				// if this is the 2nd chunk and we're
+				// in once mode, return now
+				if once && len(si) == 1 && ( inq || inw) {
+					si = append(si, [2]int{i, -1})
+					return si
+				}
 			}
-		}
-		// if once-mode is on and we've found 2 chunks, return
-		if len(si) == 2 && once {
-			return si
 		}
 		// else update idx and prune
 		idx += utf8.RuneLen(rune)

@@ -330,10 +330,10 @@ func TestLocationsOnce(t *testing.T) {
 	if cp[0] != -1 {
 		t.Errorf("cp[0] should be -1 but is %v", cp[0])
 	}
-	if cp[1] != 0 {
+	if cp[1] != -1 {
 		t.Errorf("cp[1] should be 0 but is %v", cp[1])
 	}
-	if cp[2] != 0 {
+	if cp[2] != -1 {
 		t.Errorf("cp[2] should be 0 but is %v", cp[2])
 	}
 	cp = LocationsOnce([]byte("foo"))
@@ -352,9 +352,17 @@ func TestLocationsOnce(t *testing.T) {
 
 // benchmarks
 //
-// current benchmark speeds on my machine:
-//   BenchmarkLocations-12                      10838            109846 ns/op
-//   BenchmarkLocationsOnce-12                  24081             50219 ns/op
+// pre-2.4.0 speeds on my machine (avg of 5 runs)::
+//   BenchmarkLocations-12         109846 ns/op
+//   BenchmarkLocationsOnce-12      50219 ns/op
+//
+// pre-2.5.0 speeds
+//   BenchmarkLocations-12          99669 ns/op (9.3% speedup)
+//   BenchmarkLocationsOnce-12      49457 ns/op (1.5% speedup)
+//
+// 2.5.0
+//   BenchmarkLocations-12          98558 ns/op (1.1% speedup)
+//   BenchmarkLocationsOnce-12      49642 ns/op (0.3% slowdown)
 
 var resLocs     [][2]int
 var resLocsOnce [3]int

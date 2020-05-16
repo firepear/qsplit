@@ -1,8 +1,6 @@
 
 # qsplit
-
-Quoted splitting for Golang.
-
+Quoted string splitting for Golang.
 
 Qsplit splits a byte-slice into its constituent non-whitespace chunks,
 keeping quoted chunks together, in the manner of the shell (mostly).
@@ -13,12 +11,16 @@ keeping quoted chunks together, in the manner of the shell (mostly).
 "'foo bar' baz"    -> [ b'foo bar', b`baz'}
 "a b'cd e'f"       -> [ b'a', b"b'cd", b"e'f"}
 ```
+The library is tuned for speed, and the definition of quote characters
+is configurable.
 
 See the [package doc](http://godoc.org/github.com/firepear/qsplit) for more
 information.
 
 ## News
 
+- 2020-05-17: v2.5.0: Refactor of `LocationsOnce`. 1.1% speedup of
+  `Locations`
 - 2020-05-16: v2.4.0: Refactor for speed improvements (min 1.5%;
   scales with input size). Default quote set is now single and double
   quote
