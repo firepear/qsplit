@@ -82,7 +82,7 @@ func LocationsOnce(b []byte) [3]int {
 // realLocations does the work for Locations and LocationsOnce
 func realLocations(b []byte, once bool) [][2]int {
 	var si [][2]int     // slice of tuples of ints (chunk locations)
-	var inw, inq bool   // in-word, in-quote, escape flags; map test var
+	var inw, inq bool   // in-word, in-quote flags
 	var rune, endq rune // current rune; end-quote for current quote
 	var i, idx int      // first index of chunk; byte index of current rune
 	var j int

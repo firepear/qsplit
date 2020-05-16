@@ -11,7 +11,6 @@ keeping quoted chunks together, in the manner of the shell (mostly).
 "foo bar baz"      -> [ b'foo', b'bar', b'baz'}
 "   foo \tbar baz" -> [ b'foo', b'bar', b'baz'}
 "'foo bar' baz"    -> [ b'foo bar', b`baz'}
-"a b ‹c d "e f"›"  -> [ b'a', b'b', b'c d "e f"'}
 "a b'cd e'f"       -> [ b'a', b"b'cd", b"e'f"}
 ```
 
@@ -20,11 +19,12 @@ information.
 
 ## News
 
+- 2020-05-16: v2.4.0: Refactor for speed improvements (min 1.5%;
+  scales with input size). Default quote set is now single and double
+  quote
 - 2020-05-13: v2.3.1: Fix for import path after module transition
 - 2020-05-13: v2.3.0: `qsplit` is now a Go module
 - 2019-02-25: v2.2.3: Import path changed to github
-- 2016-03-30: v2.2.2: `LocationsOnce` return values are more
-  consistent when chunks are not found
 
 ## Use
 
