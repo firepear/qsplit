@@ -350,6 +350,12 @@ func TestLocationsOnce(t *testing.T) {
 
 
 // benchmarks
+//
+// current benchmark speeds on my machine:
+//   BenchmarkLocations-12                      10838            109846 ns/op
+//   BenchmarkLocationsI18n-12                  10000            112509 ns/op
+//   BenchmarkLocationsOnce-12                  24081             50219 ns/op
+//   BenchmarkLocationsOnceI18n-12              22056             51811 ns/op
 
 var resLocs     [][2]int
 var resLocsOnce [3]int
