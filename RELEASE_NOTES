@@ -5,6 +5,9 @@
       code was moved out of the regular execution path. 0.3% slowdown
       for `LocationsOnce`; 1.1% speedup for `Locations`
 
+    * `Once` now calls `LocationsOnce` instead of `Locations`. No idea
+      why this wasn't already the case
+
 
 2.4.0 - 2020-05-16
 ---------------------------------------------------------------------

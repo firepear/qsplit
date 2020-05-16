@@ -26,7 +26,6 @@ information.
   quote
 - 2020-05-13: v2.3.1: Fix for import path after module transition
 - 2020-05-13: v2.3.0: `qsplit` is now a Go module
-- 2019-02-25: v2.2.3: Import path changed to github
 
 ## Use
 

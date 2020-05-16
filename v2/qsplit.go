@@ -10,7 +10,7 @@ characters.
 By default, qsplit is aware only of the ASCII single and double quote
 characters as chunk delineators. This can be changed with `SetQuotes`.
 
-These are the rules used to delineate chunks:
+These are the rules used to delineate quoted chunks:
 
     - Quotes begin only at a word boundary
     - Quotes extend to the first closing quotation mark which matches the
@@ -62,9 +62,8 @@ func Locations(b []byte) [][2]int {
 // chunk, and the beginning of the next chunk. If this is all you
 // need, LocationsOnce is significantly faster than Locations.
 //
-// If no chunks are found, the first element of the returned array
-// will be -1. Similarly, if only one chunk is found, the third
-// element will be -1.
+// If no chunks are found, the 1st element of the returned array will
+// be -1. If only one chunk is found, the 3rd element will be -1.
 func LocationsOnce(b []byte) [3]int {
 	s := realLocations(b, true)
 	slen := len(s)
@@ -183,7 +182,7 @@ func ToStringBytes(b []byte) (string, [][]byte) {
 // found in the input byteslice, and the remainder of the byteslice
 func Once(b []byte) [][]byte {
 	var sb [][]byte    // slice of slice of bytes
-	cp := Locations(b) // get chunk positions
+	cp := LocationsOnce(b) // get chunk positions
 	if len(cp) == 1 {
 		sb = append(sb, b)
 	} else {
