@@ -5,11 +5,10 @@ non-whitespace "chunks" contained in their input, treating text within
 balanced quotes as a single chunk.
 
 Whitespace, according to qsplit, is the ASCII space and horizontal tab
-characters. qsplit is aware of several quote character pairs:
+characters.
 
-    ASCII:      '', "", ``
-    Guillemets: ‹›, «»
-    Japanese:   「」,『』
+By default, qsplit is aware only of the ASCII single and double quote
+characters as chunk delineators. This can be changed with `SetQuotes`.
 
 These are the rules used to delineate chunks:
 
@@ -32,9 +31,23 @@ import (
 
 var (
 	// the quotation marks we know about
-	qo = [7]rune{'\'', '"', '`', '‹', '«', '「', '『'}
-	qc = [7]rune{'\'', '"', '`', '›', '»', '」', '』'}
+	qo = []rune{'\'', '"'}
+	qc = []rune{'\'', '"'}
+	qlen = len(qo)
 )
+
+
+// SetQuotes sets the list of runes which will be considered
+// quote-open and quote-close characters. As an example, to emulate
+// the behavior of old versions of qsplit, the call would be:
+//
+//    SetQuotes([]rune{'\'', '"', '`', '‹', '«', '「', '『'},
+//              []rune{'\'', '"', '`', '›', '»', '」', '』'})
+func SetQuotes(qopen, qclose []rune) {
+	qo = qopen
+	qc = qclose
+	qlen = len(qo)
+}
 
 // Locations returns the beginning and end points of all text chunks
 // in its input.
@@ -71,7 +84,8 @@ func realLocations(b []byte, once bool) [][2]int {
 	var si [][2]int     // slice of tuples of ints (chunk locations)
 	var inw, inq bool   // in-word, in-quote, escape flags; map test var
 	var rune, endq rune // current rune; end-quote for current quote
-	var i, j, idx int   // first index of chunk; qo loop; byte index of current rune
+	var i, idx int      // first index of chunk; byte index of current rune
+	var j int
 
 	// we need to operate at the runes level
 	runes := bytes.Runes(b)
@@ -96,7 +110,7 @@ func realLocations(b []byte, once bool) [][2]int {
 		case inw:
 			// if in a regular word, do nothing
 		default:
-			for j = 0; j < 7; j++ {
+			for j = 0; j < qlen; j++ {
 				// loop over quote-open runes, looking
 				// for a match
 				if rune == qo[j] {

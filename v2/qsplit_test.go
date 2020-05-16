@@ -82,6 +82,7 @@ func TestLocations(t *testing.T) {
 	}
 	// a single quoted word should come back as a single-element
 	// slice. positions should be {3,6} for "『foo』"
+	SetQuotes([]rune{'\'', '"', '`', '‹', '«', '「', '『'}, []rune{'\'', '"', '`', '›', '»', '」', '』'})
 	cp = Locations([]byte("『foo』"))
 	if len(cp) != 1 {
 		t.Errorf("cp should be len 1 but is %v", len(cp))
@@ -353,31 +354,24 @@ func TestLocationsOnce(t *testing.T) {
 //
 // current benchmark speeds on my machine:
 //   BenchmarkLocations-12                      10838            109846 ns/op
-//   BenchmarkLocationsI18n-12                  10000            112509 ns/op
 //   BenchmarkLocationsOnce-12                  24081             50219 ns/op
-//   BenchmarkLocationsOnceI18n-12              22056             51811 ns/op
 
 var resLocs     [][2]int
 var resLocsOnce [3]int
 
 func BenchmarkLocations(b *testing.B) {
+	SetQuotes([]rune{'\'', '"'}, []rune{'\'', '"'})
+	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		Locations(corpus)
 	}
 }
-func BenchmarkLocationsI18n(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		Locations(corpus_i18n)
-	}
-}
 
 func BenchmarkLocationsOnce(b *testing.B) {
+	SetQuotes([]rune{'\'', '"'}, []rune{'\'', '"'})
+	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		LocationsOnce(corpus)
 	}
 }
-func BenchmarkLocationsOnceI18n(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		LocationsOnce(corpus_i18n)
-	}
-}
+
