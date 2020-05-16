@@ -183,11 +183,11 @@ func ToStringBytes(b []byte) (string, [][]byte) {
 func Once(b []byte) [][]byte {
 	var sb [][]byte    // slice of slice of bytes
 	cp := LocationsOnce(b) // get chunk positions
-	if len(cp) == 1 {
+	if cp[2] == -1 {
 		sb = append(sb, b)
 	} else {
-		sb = append(sb, b[cp[0][0]:cp[0][1]])
-		sb = append(sb, b[cp[1][0]:])
+		sb = append(sb, b[cp[0]:cp[1]])
+		sb = append(sb, b[cp[2]:])
 	}
 	return sb
 }
