@@ -19,8 +19,8 @@ information.
 
 ## News
 
-- 2020-05-17: v2.5.0: Refactor of `LocationsOnce`. 1.1% speedup of
-  `Locations`
+- 2020-05-17: v2.5.0: Refactor of `LocationsOnce`; 1.1% speedup of
+  `Locations`. `Once` now calls `LocationsOnce`
 - 2020-05-16: v2.4.0: Refactor for speed improvements (min 1.5%;
   scales with input size). Default quote set is now single and double
   quote
