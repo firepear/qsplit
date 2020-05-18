@@ -2,14 +2,15 @@
 # qsplit
 Quoted string splitting for Golang.
 
-Qsplit splits a byte-slice into its constituent non-whitespace chunks,
-keeping quoted chunks together, in the manner of the shell (mostly).
+Qsplit turns a byte-slice into its constituent non-whitespace chunks
+of bytes, keeping quoted chunks together, in the manner of the
+shell. Mostly.
 
 ```
-"foo bar baz"      -> [ b'foo', b'bar', b'baz'}
-"   foo \tbar baz" -> [ b'foo', b'bar', b'baz'}
-"'foo bar' baz"    -> [ b'foo bar', b`baz'}
-"a b'cd e'f"       -> [ b'a', b"b'cd", b"e'f"}
+"foo bar baz"      -> [ b`foo`, b`bar`, b`baz` ]
+"   foo \tbar baz" -> [ b`foo`, b`bar`, b`baz` ]
+"'foo bar' baz"    -> [ b`foo bar`, b`baz` ]
+"a b'cd e'f"       -> [ b`a`, b`b'cd`, b`e'f` ]
 ```
 The library is tuned for speed, and the definition of quote characters
 is configurable.
