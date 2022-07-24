@@ -2,6 +2,9 @@
 # qsplit
 Quoted string splitting for Golang.
 
+NB: This package is in maintenance mode. There will be no development
+in the forseeable future, except in response to issues/bug reports.
+
 Qsplit turns a byte-slice into its constituent non-whitespace chunks
 of bytes, keeping quoted chunks together, in the manner of the
 shell. Mostly.
@@ -20,6 +23,7 @@ information.
 
 ## News
 
+- 2022-07-24: qsplit shifts to mainenance mode
 - 2020-05-17: v2.5.0: Refactor of `LocationsOnce`; 1.1% speedup of
   `Locations`. `Once` now calls `LocationsOnce`
 - 2020-05-16: v2.4.0: Refactor for speed improvements (min 1.5%;
